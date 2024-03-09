@@ -10,7 +10,7 @@ export default function SettingsScreen({ navigation }) {
     }
     return (
         <View style={{ flex: 1, backgroundColor: Colors.lightColor }}>
-            <Text>settings_screen</Text>
+            <Text>settings_screen here</Text>
             <Button onButtonPress={() => signOut()} text={'logout'} />
         </View>
     )
