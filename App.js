@@ -11,6 +11,8 @@ import { PaperProvider } from 'react-native-paper';
 import { lightTheme } from './colors';
 import { UserProvider } from './services/context/usercontext';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaView } from 'react-native-safe-area-context';
 export default function App() {
 
   const [fontsLoaded] = useFonts({
@@ -42,13 +44,16 @@ export default function App() {
   }
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <PaperProvider theme={lightTheme}>
-          <UserProvider>
-            <NavigationService />
-          </UserProvider>
-        </PaperProvider>
-      </BottomSheetModalProvider >
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar style='dark' />
+        <BottomSheetModalProvider>
+          <PaperProvider theme={lightTheme}>
+            <UserProvider>
+              <NavigationService />
+            </UserProvider>
+          </PaperProvider>
+        </BottomSheetModalProvider >
+      </SafeAreaView>
     </GestureHandlerRootView>
   );
 }

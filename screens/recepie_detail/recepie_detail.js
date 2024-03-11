@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Sizes } from '../../constants/sizes'
 import { getData, getIngredientsList } from '../../utils'
 import { CustomStyles } from '../../constants/custom_styles'
-import { FontAwesome5, AntDesign, Ionicons } from '@expo/vector-icons'
+import { FontAwesome5, AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { TypeScale } from '../../constants/type_scale'
 import { UserContext } from '../../services/context/usercontext'
 import { supabase } from '../../services/supabase/client'
@@ -224,8 +224,9 @@ export default function RecipeDetailScreen({ route }) {
           </TouchableOpacity>}
         </View>
         <View style={{ position: 'absolute', width: 140, top: 110 }}>
-          <TouchableOpacity style={[CustomStyles.button, { backgroundColor: 'rgba(255,0,0,0.2)' }]}>
-            <Text style={TypeScale.button}>Source</Text>
+          <TouchableOpacity style={[CustomStyles.button, { backgroundColor: 'rgba(255,0,0,0.2)', flexDirection: 'row', justifyContent: 'space-around' }]}>
+            <MaterialIcons name="place" size={youtubeicon_size} color={youtubeicon_color} />
+            <Text style={TypeScale.button}>{data.mealArea} origin</Text>
           </TouchableOpacity>
         </View>
         <View style={{ position: 'absolute', width: 100, top: 170 }}>

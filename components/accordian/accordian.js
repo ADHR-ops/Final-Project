@@ -21,7 +21,7 @@ export default function Accordian({ unsaveRecipe, id, title, image, description,
 
             <View style={styles.header}>
                 <Text style={{ fontSize: TypeScale.headlineSmall, ...styles.title }}>{title}</Text>
-                <TouchableOpacity style={{ borderRadius: 5, padding: 4, backgroundColor: Colors.buttonBackgroundColor }} onPress={() => unsaveRecipe(id)}>
+                <TouchableOpacity style={{ borderRadius: 10, padding: 6, backgroundColor: Colors.buttonBackgroundColor }} onPress={() => unsaveRecipe(id)}>
                     <Text style={{ color: Colors.buttonTextColor }}>Delete</Text>
 
                 </TouchableOpacity>

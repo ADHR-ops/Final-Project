@@ -1,15 +1,14 @@
 
 import React, { useEffect, useState, useCallback } from 'react'
 import { WebView } from 'react-native-webview';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import YoutubePlayer from "react-native-youtube-iframe";
 import Button from '../../components/button/button'
-import { useNavigation } from '@react-navigation/native';
-export default function Youtube_Screen({ route }) {
+import { Colors } from '../../constants/colors';
+export default function Youtube_Screen({ route, navigation }) {
     const { youtubeId, mealName } = route.params
     const id = youtubeId.split("=").pop()
 
-    const navigation = useNavigation()
     useEffect(() => {
         navigation.setOptions({ title: mealName })
     }, [])
@@ -36,6 +35,7 @@ export default function Youtube_Screen({ route }) {
 
         // />
         <View style={{ padding: 20 }}>
+            {/* <Text style={{ marginVertical: 10, paddingVertical: 10, textAlign:'center',fontSize: 20, color: Colors.accentColor, fontWeight: 'bold' }}>Lets learn how to cook {mealName}</Text> */}
             <YoutubePlayer
                 onReady={onReady}
                 height={200}

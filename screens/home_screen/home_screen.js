@@ -12,6 +12,7 @@ import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native"
 import Loading from "../../components/loading/Loading";
 import { Dimensions } from 'react-native'
 import { useRef } from 'react';
+import { mergeSort } from '../../utils';
 
 export default function HomeScreen() {
     const windowWidth = Dimensions.get('window').width;
@@ -30,8 +31,9 @@ export default function HomeScreen() {
                 setRecipes([])
                 const { data } = await supabase.from('categories').select()
                 // const data = await getData(mealdb_category_api)
-                if (data)
+                if (data) {
                     setCategories(data)
+                }
             } catch (error) {
                 Alert.alert("Something went wrong", error)
             }
@@ -46,7 +48,8 @@ export default function HomeScreen() {
                 setLoading(true)
                 setRecipes([])
                 const { data } = await supabase.from('RecipesByCategory').select().ilike('strCategory', activeCategory)
-                setRecipes(data)
+                const sortedData = mergeSort(data)
+                setRecipes(sortedData)
                 setLoading(false)
 
             } catch (error) {
