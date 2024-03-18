@@ -18,6 +18,9 @@ import { useSharedValue } from 'react-native-reanimated';
 import { supabase } from '../../services/supabase/client';
 import Loading from '../../components/loading/Loading';
 import { merge, mergeSort } from '../../utils';
+import InputField from '../../components/InputField';
+import { SearchNormal1 } from 'iconsax-react-native';
+import ScreenHead from '../../components/ScreenHead/ScreenHead';
 const marginTop = 200;
 export default function SearchScreen() {
     let ReciesInView = useSharedValue([])
@@ -62,16 +65,9 @@ export default function SearchScreen() {
 
     return (
         <View style={{ padding: Sizes.screenPadding, flex: 1 }}>
-            <View style={{ flex: 0.2 }}>
-                <Text
-                    style={{
-                        marginVertical: 10,
-                        ...TypeScale.h2Headline,
-                        color: Colors.accentColor,
-                    }}>
-                    Search Recipes...
-                </Text>
-                <View style={styles.search_field}>
+            <View style={{ flex: 0.2, justifyContent: 'space-between', alignItems: 'start' }}>
+                <ScreenHead title='Search Recipe' />
+                {/* <View style={styles.search_field}>
                     <TextInput
                         placeholder={TextStrings.search_placeholder}
                         cursorColor={Colors.darkColor}
@@ -79,9 +75,18 @@ export default function SearchScreen() {
                         onChangeText={setUserSearch}
                     />
                     <AntDesign name="search1" size={Sizes.search_icon_size} color={Colors.accentColor} />
+                </View> */}
+                <View style={{ zIndex: 90, marginVertical: 10 }}>
+                    <InputField type='search' value={userSearch} setValue={setUserSearch} placeholder={TextStrings.search_placeholder}>
+                        <SearchNormal1
+                            size={Sizes.search_icon_size}
+                            color={Colors.accentColor}
+
+                        />
+                    </InputField>
                 </View>
             </View>
-            <View style={{ flex: 0.8, marginTop: 10 }}>
+            <View style={{ flex: 0.77, marginTop: 15 }}>
                 {
                     loading ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         <Loading size={Sizes.indicator_size} color={Colors.accentColor} />

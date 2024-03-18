@@ -6,6 +6,7 @@ import { useState } from "react";
 import { supabase } from "../../services/supabase/client";
 import { Colors } from "../../constants/colors";
 import { ActivityIndicator } from "react-native-paper";
+import Toast from "react-native-toast-message";
 export const DocumentUploader = ({ imageAsset = null, setImageAsset, userId }) => {
     const [isUploaded, setIsUploaded] = useState(Boolean(imageAsset))
     const [isUploading, setIsUploading] = useState(false)
@@ -43,6 +44,11 @@ export const DocumentUploader = ({ imageAsset = null, setImageAsset, userId }) =
                 .eq('uid', userId)
             setIsUploading(false)
             setIsUploaded(true)
+            Toast.show({
+                type: 'success',
+                text1: 'Image uploaded successful',
+                position: 'bottom'
+            })
         }).catch(err => {
             console.log(err.message)
             Alert.alert('Success', message);
@@ -53,7 +59,7 @@ export const DocumentUploader = ({ imageAsset = null, setImageAsset, userId }) =
         <View className="w-72 h-72 p-4 flex items-center justify-center">
             {imageAsset ? (
                 <View>
-                    <Image source={{ uri: imageAsset }} style={{ width: 200, height: 200, borderRadius: 200 }} />
+                    <Image source={{ uri: imageAsset }} style={{ width: 100, height: 100, borderRadius: 100 }} />
                     {
                         !isUploaded && <View className={'flex flex-row justify-center items-center'}>
                             <TouchableOpacity className={'mx-8'} onPress={() => setImageAsset(null)}>

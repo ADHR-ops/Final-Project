@@ -7,7 +7,6 @@ import WelcomeScreen from "../../screens/welcome_screen/welcome_screen";
 import ForgetPasswordScreen from "../../screens/forget_password_screen/forget_password_screen";
 import RecipeDetailScreen from "../../screens/recepie_detail/recepie_detail";
 import Youtube_Screen from "../../screens/youtube_screen/youtube_screen";
-import EmailVerificationScreen from "../../screens/email_verification_screen/email_verification_screen";
 import UpdatePassword from "../../screens/update_password/UpdatePassword";
 import SavedRecipes from "../../screens/saved_recipes/saved_recipes";
 const Stack = createNativeStackNavigator();
@@ -15,7 +14,7 @@ const Stack = createNativeStackNavigator();
 export default function NavigationService() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="welcome">
+            <Stack.Navigator initialRouteName="Welcome">
                 <Stack.Screen
                     name="Welcome"
                     component={WelcomeScreen}
@@ -49,11 +48,6 @@ export default function NavigationService() {
                 <Stack.Screen
                     name="Dashboard"
                     component={DashboardScreen}
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name="EmailVerification"
-                    component={EmailVerificationScreen}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen

@@ -7,9 +7,11 @@ import { Icons } from "../../constants/icons";
 import TextIconButtonView from "../../components/text_icon_button_view/text_icon_button_view";
 import { ImageStrings } from "../../constants/image_strings";
 import { supabase } from '../../services/supabase/client';;
-
+import Toast from 'react-native-toast-message';
+import { Lock1, PasswordCheck } from 'iconsax-react-native';
+import InputField from '../../components/InputField';
 const UpdatePassword = ({ route, navigation }) => {
-  const { email } = route.params;
+
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -50,26 +52,12 @@ const UpdatePassword = ({ route, navigation }) => {
       <Image style={styles.image} source={ImageStrings.forgetPasswordImage} />
       <Text style={styles.title}>{TextStrings.updatePasswordTitle}</Text>
       <Text style={styles.subtitle}>{TextStrings.updatePasswordSubtitle}</Text>
-      <TextInput
-        style={styles.input}
-        placeholder={TextStrings.newPassword}
-        placeholderTextColor={Colors.lightColor}
-        cursorColor={Colors.lightColor}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        secureTextEntry={true}
-        keyboardAppearance='light'
-      />
-      <TextInput
-        style={styles.input}
-        placeholder={TextStrings.confirmPassword}
-        placeholderTextColor={Colors.lightColor}
-        cursorColor={Colors.lightColor}
-        value={confirmPassword}
-        onChangeText={(text) => setConfirmPassword(text)}
-        secureTextEntry={true}
-        keyboardAppearance='light'
-      />
+      <InputField value={password} setValue={setPassword} placeholder={TextStrings.password} type={'password'} >
+        <Lock1 size="25" color={Colors.lightColor} />
+      </InputField>
+      <InputField value={confirmPassword} setValue={setConfirmPassword} placeholder={TextStrings.confirmPassword} type={'password'} >
+        <PasswordCheck size="25" color={Colors.lightColor} />
+      </InputField>
       <TouchableOpacity style={styles.button} onPress={updatePasswordHandle}>
         <TextIconButtonView textString={TextStrings.updatePassword} icon={Icons.rightArrowIcon} />
       </TouchableOpacity>

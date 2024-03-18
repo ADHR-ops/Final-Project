@@ -13,6 +13,7 @@ import { UserProvider } from './services/context/usercontext';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 export default function App() {
 
   const [fontsLoaded] = useFonts({
@@ -50,6 +51,7 @@ export default function App() {
           <PaperProvider theme={lightTheme}>
             <UserProvider>
               <NavigationService />
+              <Toast />
             </UserProvider>
           </PaperProvider>
         </BottomSheetModalProvider >

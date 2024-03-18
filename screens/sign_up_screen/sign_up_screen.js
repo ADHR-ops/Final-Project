@@ -20,6 +20,8 @@ import { CustomStyles } from "../../constants/custom_styles";
 import SocialMediaButton from "../../components/social_media_button/social_media_button";
 import Button from "../../components/button/button";
 import { supabase } from "../../services/supabase/client";
+import InputField from "../../components/InputField";
+import { Lock1, Subtitle, User } from "iconsax-react-native";
 
 createNativeStackNavigator();
 
@@ -71,7 +73,7 @@ const SignUpScreen = ({ navigation }) => {
         },
       });
 
-      await supabase.from('Users').insert({ email: email, username: username, uid: data.user.id })
+      await supabase.from('Users').insert({ email: email, username: username, uid: data.user.id, avatar: null })
       setIsSubmitting(false)
       navigation.replace("Login");
     } catch (error) {
@@ -111,46 +113,18 @@ const SignUpScreen = ({ navigation }) => {
         <Image style={styles.image} source={ImageStrings.mainLogo} />
         <Text style={styles.title}>{TextStrings.signUpTitle}</Text>
         <Text style={styles.subtitle}>{TextStrings.signUpSubtitle}</Text>
-        <TextInput
-          style={styles.input}
-          placeholder={TextStrings.username}
-          placeholderTextColor={Colors.lightColor}
-          cursorColor={Colors.lightColor}
-          value={username}
-          onChangeText={(text) => setUsername(text)}
-          keyboardAppearance="light"
-          keyboardType={"default"}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={TextStrings.email}
-          placeholderTextColor={Colors.lightColor}
-          cursorColor={Colors.lightColor}
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          keyboardAppearance="light"
-          keyboardType={"email-address"}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={TextStrings.password}
-          secureTextEntry={true}
-          placeholderTextColor={Colors.lightColor}
-          cursorColor={Colors.lightColor}
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          keyboardAppearance="light"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={TextStrings.confirmPassword}
-          secureTextEntry={true}
-          placeholderTextColor={Colors.lightColor}
-          cursorColor={Colors.lightColor}
-          value={confirmPassword}
-          onChangeText={(text) => setConfirmPassword(text)}
-          keyboardAppearance="light"
-        />
+        <InputField value={username} setValue={setUsername} placeholder={TextStrings.username} type={'text'} >
+          <User size="25" color={Colors.lightColor} />
+        </InputField>
+        <InputField value={email} setValue={setEmail} placeholder={TextStrings.email} type={'email'} >
+          <Subtitle size="25" color={Colors.lightColor} />
+        </InputField>
+        <InputField value={password} setValue={setPassword} placeholder={TextStrings.password} type={'password'} >
+          <Lock1 size="25" color={Colors.lightColor} />
+        </InputField>
+        <InputField value={confirmPassword} setValue={setConfirmPassword} placeholder={TextStrings.confirmPassword} type={'password'} >
+          <Lock1 size="25" color={Colors.lightColor} />
+        </InputField>
         <Button text={!isSubmitting ? TextStrings.signUp : 'Loading'} disabled={isSubmitting ? true : false} onButtonPress={handleSignUp} />
         <View style={styles.formHeight}></View>
         <SocialMediaButton

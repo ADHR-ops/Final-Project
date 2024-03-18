@@ -13,6 +13,7 @@ import { supabase } from '../../services/supabase/client'
 import { useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Loading from "../../components/loading/Loading";
+import Toast from 'react-native-toast-message';
 
 const image_size = 300
 const heart_size = 60
@@ -103,7 +104,11 @@ export default function RecipeDetailScreen({ route }) {
           setIsSaved(isRecipeSaved);
         }
       } catch (error) {
-        console.error('Error fetching save state:', error.message);
+        Toast.show({
+          type: 'error',
+          text1: error.message,
+          position: 'bottom'
+        });
       }
     };
 
@@ -127,14 +132,11 @@ export default function RecipeDetailScreen({ route }) {
   const goToYoutubeScreen = () => {
     session ?
       navigation.navigate('youtube_screen', { youtubeId: data.youtuebId, mealName: data.mealName })
-      : Alert.alert('Login Required', 'You must Loggin to watch youtube video', [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel',
-        },
-        { text: 'Login', onPress: () => navigation.navigate("Login") },
-      ])
+      : Toast.show({
+        type: 'info',
+        text1: 'Login is required is watch vidoe',
+        position: 'bottom'
+      });
   }
   const addRecipeToFavourite = async () => {
     if (isLiking) return
@@ -163,14 +165,11 @@ export default function RecipeDetailScreen({ route }) {
         }
       }
       else {
-        Alert.alert('Login Required', 'You must Loggin to like Recipe', [
-          {
-            text: 'Cancel',
-            onPress: () => null,
-            style: 'cancel',
-          },
-          { text: 'Login', onPress: () => navigation.navigate("Login") },
-        ])
+        Toast.show({
+          type: 'info',
+          text1: 'Login is required before liking or disliking the recipe',
+          position: 'bottom'
+        });
       }
     } catch (error) {
       console.log('error', error.message);
@@ -182,7 +181,12 @@ export default function RecipeDetailScreen({ route }) {
   //saving recipe in user local storage
   const saveRecipe = async () => {
     if (!session) {
-      Alert.alert("Login to save the recipe")
+      // Alert.alert("Login to save the recipe")
+      Toast.show({
+        type: 'info',
+        text1: 'Login to save the recipe',
+        position: 'bottom'
+      });
       return;
     }
     try {
@@ -207,7 +211,11 @@ export default function RecipeDetailScreen({ route }) {
       await AsyncStorage.setItem('savedRecipes', JSON.stringify(updatedRecipes));
       setIsSaved(!isSaved);
       const message = isSaved ? 'Recipe unsaved!' : 'Recipe saved!';
-      Alert.alert('Success', message);
+      Toast.show({
+        type: 'success',
+        text1: message,
+        position: 'bottom'
+      });
     } catch (error) {
       console.error('Error saving recipe:', error.message);
     }

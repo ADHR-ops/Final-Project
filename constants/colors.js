@@ -2,7 +2,8 @@
 const Colors = {
     primaryColor: '#3b5998',
     backgroundColor: '#045D56',
-    accentColor: '#1EB980',
+    accentColor: 'rgba(30, 185, 128, 1)',
+    lightAccentColor: 'rgba(30, 185, 128, 0.2)',
     cardBackgroundColor: '#134B5F',
 
 

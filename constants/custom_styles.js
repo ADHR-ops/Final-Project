@@ -1,6 +1,6 @@
-import {Sizes} from "./sizes";
-import {Colors} from "./colors";
-import {TypeScale} from "./type_scale";
+import { Sizes } from "./sizes";
+import { Colors } from "./colors";
+import { TypeScale } from "./type_scale";
 
 const CustomStyles = {
 
@@ -67,12 +67,19 @@ const CustomStyles = {
     input: {
         ...TypeScale.subtitle1,
         height: Sizes.buttonHeight,
-        borderWidth: 1,
+        borderWidth: 2,
         borderRadius: Sizes.textFormFieldRadius,
-        borderColor: Colors.lightColor,
+        borderColor: Colors.accentColor,
         marginBottom: Sizes.formHeight,
         padding: Sizes.textFormFieldPadding,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 2,
+        width: '100%',
+        backgroundColor: Colors.lightAccentColor,
+
     },
 };
 
-export {CustomStyles};
+export { CustomStyles };

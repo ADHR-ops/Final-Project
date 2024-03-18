@@ -9,7 +9,9 @@ import {
   Image,
   Dimensions,
   ScrollView
+
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { TextStrings } from "../../constants/text_strings";
 import { Colors } from "../../constants/colors";
 import { Sizes } from "../../constants/sizes";
@@ -19,6 +21,8 @@ import { CustomStyles } from "../../constants/custom_styles";
 import Button from '../../components/button/button';
 import SocialMediaButton from "../../components/social_media_button/social_media_button";
 import { supabase } from '../../services/supabase/client';
+import InputField from '../../components/InputField';
+import { Lock1, Subtitle } from 'iconsax-react-native';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -28,7 +32,11 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
 
     if (!email || !password) {
-      alert('Please fill in all fields');
+      Toast.show({
+        type: 'error',
+        text1: 'Email or Password cannot be empty',
+        position: 'bottom'
+      });
       return;
     }
 
@@ -40,17 +48,25 @@ const LoginScreen = ({ navigation }) => {
       });
 
       if (error) {
-        alert('Invalid email or password. Please try again.');
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid Email!!!',
+          position: 'bottom'
+        });
         setIsSubmitting(false)
         return;
       }
-     
+
 
       // User successfully authenticated
       setIsSubmitting(false)
       navigation.replace("Dashboard");
     } catch (error) {
-      console.error('Error signing in:', error.message);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+        position: 'bottom'
+      });
 
     }
     return;
@@ -94,7 +110,7 @@ const LoginScreen = ({ navigation }) => {
         <Image style={styles.image} source={ImageStrings.mainLogo} />
         <Text style={styles.title}>{TextStrings.loginTitle}</Text>
         <Text style={styles.subtitle}>{TextStrings.loginSubtitle}</Text>
-        <TextInput
+        {/* <TextInput
           style={styles.input}
           placeholder={TextStrings.email}
           placeholderTextColor={Colors.lightColor}
@@ -103,17 +119,14 @@ const LoginScreen = ({ navigation }) => {
           onChangeText={(text) => setEmail(text)}
           keyboardAppearance='light'
           keyboardType={'email-address'}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={TextStrings.password}
-          secureTextEntry={true}
-          placeholderTextColor={Colors.lightColor}
-          cursorColor={Colors.lightColor}
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          keyboardAppearance='light'
-        />
+        /> */}
+        <InputField value={email} setValue={setEmail} placeholder={TextStrings.email} type={'email'} >
+          <Subtitle size="25" color={Colors.lightColor} />
+        </InputField>
+        <InputField value={password} setValue={setPassword} placeholder={TextStrings.password} type={'password'} >
+          <Lock1 size="25" color={Colors.lightColor} />
+        </InputField>
+
         <View style={styles.forgotPasswordView}>
           <TouchableOpacity onPress={forgetPasswordHandle}>
             <Text style={styles.forgotPasswordText}>{TextStrings.forgetPassword}</Text>

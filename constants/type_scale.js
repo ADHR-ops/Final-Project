@@ -1,6 +1,6 @@
-import {Sizes} from "./sizes";
-import {Colors} from "./colors";
-import {Fonts} from "./fonts";
+import { Sizes } from "./sizes";
+import { Colors } from "./colors";
+import { Fonts } from "./fonts";
 
 const TypeScale = {
     h1Headline: {
@@ -70,4 +70,4 @@ const TypeScale = {
     },
 };
 
-export {TypeScale};
+export { TypeScale };

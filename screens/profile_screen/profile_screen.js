@@ -9,10 +9,12 @@ import { DocumentUploader } from '../../components/DocumentUploader/DocumentUplo
 import {
     BottomSheetModal,
     BottomSheetView,
-    BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
 import { useMemo } from 'react';
-
+import ScreenHead from '../../components/ScreenHead/ScreenHead';
+import { CustomStyles } from '../../constants/custom_styles';
+import { AddSquare, Information, Login, Menu, More, PasswordCheck, Personalcard, Profile2User, Save2 } from 'iconsax-react-native';
+import { Linking } from 'react-native';
 export default function UserProfileScreen({ navigation }) {
     const { session } = useContext(UserContext);
     const [image, setImage] = useState(null)
@@ -26,15 +28,19 @@ export default function UserProfileScreen({ navigation }) {
         const getUserInfo = async () => {
             setLoading(true);
             const { data } = await supabase.auth.getUser();
+            if (data.user) {
+                setUserData({ id: data.user.id, email: data.user.email, username: data.user.user_metadata.username });
+            }
             const res = await supabase
                 .from('Users')
                 .select()
                 .eq('uid', data.user.id)
-            setImage(res.data[0].avatar)
-            if (data.user && res.data) {
-                setUserData({ id: data.user.id, email: data.user.email, username: data.user.user_metadata.username });
-                setLoading(false);
-            }
+
+            if (res?.data[0].avatar != null)
+                setImage(res.data[0].avatar)
+            else
+                setImage(null)
+            setLoading(false);
         };
         if (session) getUserInfo();
 
@@ -61,43 +67,163 @@ export default function UserProfileScreen({ navigation }) {
     const handleSheetChanges = useCallback((index) => {
         console.log('handleSheetChanges', index);
     }, []);
+    if (loading)
+        return <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <ActivityIndicator size={Sizes.screenIndicatorSize} color={Colors.accentColor} />
+        </View>
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { padding: Sizes.screenPadding }]}>
+            <ScreenHead title='settings Screen' />
 
-            {loading ? (
-                <ActivityIndicator size={Sizes.screenIndicatorSize} color={Colors.accentColor} />
-            ) : session ? (
+            {session ? (
                 <View style={styles.userInfoContainer}>
                     {/* User mAvatar */}
-
-                    <DocumentUploader imageAsset={image} setImageAsset={setImage} userId={userData?.id} />
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <DocumentUploader imageAsset={image} setImageAsset={setImage} userId={userData?.id} />
+                    </View>
                     {/* User Info */}
                     <View style={styles.userInfo}>
                         <Text style={styles.username}>{userData.username}</Text>
                         <Text style={styles.email}>{userData.email}</Text>
                     </View>
                     {/* Buttons */}
-                    <View style={styles.buttonsContainer}>
-                        <Button text={'More'} onButtonPress={handlePresentModalPress} />
-                    </View>
+                    <TouchableOpacity onPress={() => { Linking.openURL('https://www.privacypolicies.com/live/e18297c5-20e1-4779-8bb8-c79d5c880c63') }} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'start', gap: 30 }}>
+                        <View style={[CustomStyles.button, { backgroundColor: 'rgba(60, 145, 230,0.1)', width: '18%' }]}>
+                            <Information size="30" color={'rgb(60, 145, 230)'} />
+                        </View>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18, color: Colors.primaryColor }}>About Us</Text>
+                    </TouchableOpacity>
+                    <View
+                        style={{
+                            marginVertical: 20,
+                            borderBottomColor: 'gray',
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                        }}
+                    />
+                    <TouchableOpacity onPress={() => { Linking.openURL('https://www.privacypolicies.com/live/e18297c5-20e1-4779-8bb8-c79d5c880c63') }} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'start', gap: 30 }}>
+                        <View style={[CustomStyles.button, { backgroundColor: 'rgba(60, 15, 150,0.1)', width: '18%' }]}>
+                            <Personalcard size="28" color={'rgba(60, 15, 150,1)'} />
+                        </View>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18, color: Colors.primaryColor }}>Privacy Policy</Text>
+                    </TouchableOpacity>
+                    <View
+                        style={{
+                            marginVertical: 20,
+                            borderBottomColor: 'gray',
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                        }}
+                    />
+
+
+                    <TouchableOpacity onPress={handlePresentModalPress} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'start', gap: 30 }}>
+                        <View style={[CustomStyles.button, { backgroundColor: 'rgba(30, 185, 128, 0.1)', width: '18%' }]}>
+                            <More size="28" color={'rgba(30, 185, 128, 1)'} />
+                        </View>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18, color: Colors.primaryColor }}>More Option</Text>
+                    </TouchableOpacity>
+                    <View
+                        style={{
+                            marginVertical: 20,
+                            borderBottomColor: 'gray',
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                        }}
+                    />
+
                 </View>
             ) : (
+                //if not logged in
                 <View style={styles.buttonsContainer}>
-                    <Button text={'Login'} onButtonPress={() => navigation.navigate('Login')} />
-                    <Button text={'Sign Up'} onButtonPress={() => navigation.navigate('SignUp')} />
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <Image style={{ width: 200, height: 200 }} source={require("../../assets/settings.png")} />
+                    </View>
+
+                    <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'start', gap: 30 }}>
+                        <View style={[CustomStyles.button, { backgroundColor: 'rgba(30, 185, 128, 0.1)', width: '18%' }]}>
+                            <Login size="30" color={Colors.accentColor} />
+                        </View>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18, color: Colors.primaryColor }}>Login</Text>
+                    </TouchableOpacity>
+                    <View
+                        style={{
+                            marginVertical: 20,
+                            borderBottomColor: 'gray',
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                        }}
+                    />
+
+                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'start', gap: 30 }}>
+                        <View style={[CustomStyles.button, { backgroundColor: 'rgba(60, 145, 230,0.1)', width: '18%' }]}>
+                            <AddSquare size="30" color={'rgb(60, 145, 230)'} />
+                        </View>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18, color: Colors.primaryColor }}>signup</Text>
+                    </TouchableOpacity>
+                    <View
+                        style={{
+                            marginVertical: 20,
+                            borderBottomColor: 'gray',
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                        }}
+                    />
+                    <TouchableOpacity onPress={() => { Linking.openURL('https://www.privacypolicies.com/live/e18297c5-20e1-4779-8bb8-c79d5c880c63') }} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'start', gap: 30 }}>
+                        <View style={[CustomStyles.button, { backgroundColor: 'rgba(60, 15, 150,0.1)', width: '18%' }]}>
+                            <Profile2User size="30" color={'rgba(60, 15, 150,0.3)'} />
+                        </View>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18, color: Colors.primaryColor }}>About Us</Text>
+                    </TouchableOpacity>
+                    <View
+                        style={{
+                            marginVertical: 20,
+                            borderBottomColor: 'gray',
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                        }}
+                    />
+
+                    {/* <View style={{ gap: 20, width: '100%' }}>
+                        <View style={{ width: '100%' }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                                Already have an account
+                            </Text>
+                            <Button text={'Login'} onButtonPress={() => navigation.navigate('Login')} />
+                        </View>
+                        <View style={{ width: '100%' }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+                                Didnt have an account? Signup right now...
+                            </Text>
+                            <Button text={'Sign Up'} onButtonPress={() => navigation.navigate('SignUp')} />
+                        </View>
+                    </View> */}
                 </View>
-            )}
+            )
+            }
+
+            {/* Bottom sheet */}
             <View style={styles.container}>
                 <BottomSheetModal
                     ref={bottomSheetModalRef}
                     index={0}
                     snapPoints={snapPoints}
                     onChange={handleSheetChanges}
+                    style={{ backgroundColor: Colors.lightAccentColor }}
                 >
                     <BottomSheetView style={{ padding: 20 }}>
-                        <Text>Awesome </Text>
-                        <Button text={'Saved Recipes'} onButtonPress={() => { handleDismissModalPress(); navigation.navigate('SavedRecipes'); }} />
-                        <Button text={'Logout'} onButtonPress={() => { handleDismissModalPress(); handleLogout() }} />
+
+                        <TouchableOpacity onPress={() => { handleDismissModalPress(); navigation.navigate('SavedRecipes') }} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'start', gap: 30 }}>
+                            <View style={[CustomStyles.button, { backgroundColor: 'rgba(60, 15, 150,0.1)', width: '18%' }]}>
+                                <Save2 size="28" color={'rgba(60, 15, 150,1)'} />
+                            </View>
+                            <Text style={{ fontWeight: 'bold', fontSize: 18, color: Colors.primaryColor }}>Saved Recipes</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => { handleDismissModalPress(); navigation.navigate('UpdatePassword') }} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'start', gap: 30, marginVertical: 20 }}>
+                            <View style={[CustomStyles.button, { backgroundColor: 'rgba(60, 145, 230,0.1)', width: '18%' }]}>
+                                <PasswordCheck size="28" color={'rgba(60, 145, 230,1)'} />
+                            </View>
+                            <Text style={{ fontWeight: 'bold', fontSize: 18, color: Colors.primaryColor }}>Update Password</Text>
+                        </TouchableOpacity>
+
+                        <View style={{ marginVertical: 20 }}>
+                            <Button text={'Logout'} onButtonPress={() => { handleDismissModalPress(); handleLogout() }} />
+                        </View>
                     </BottomSheetView>
                 </BottomSheetModal>
             </View>
@@ -108,11 +234,13 @@ export default function UserProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        gap: 20,
         padding: Sizes.screenPadding,
         justifyContent: 'center',
+
     },
     userInfoContainer: {
-        alignItems: 'center',
+        flex: 1
     },
     avatar: {
         width: 150,
@@ -122,11 +250,12 @@ const styles = StyleSheet.create({
     },
     userInfo: {
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: 40,
     },
     username: {
         fontSize: 20,
         fontWeight: 'bold',
+
     },
     email: {
         fontSize: 16,
@@ -135,6 +264,6 @@ const styles = StyleSheet.create({
     buttonsContainer: {
         marginTop: 20,
         width: '100%',
-        alignItems: 'center',
+
     },
 });
