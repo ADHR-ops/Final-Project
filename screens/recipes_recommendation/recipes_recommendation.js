@@ -49,7 +49,7 @@ const RecipesRecommendation = ({ navigation }) => {
         } catch (error) {
             Toast.show({
                 type: 'error',
-                text1: 'The server hosting the ML model is not working',
+                text1: 'The server hosting the ML model is not yet working',
                 position: 'bottom'
             });
         } finally {
