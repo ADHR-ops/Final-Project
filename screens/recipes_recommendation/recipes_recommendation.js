@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as Network from 'expo-network';
+import Toast from 'react-native-toast-message';
 import {
     View,
     Text,
@@ -18,6 +19,7 @@ import { CustomStyles } from "../../constants/custom_styles";
 
 import axios from 'axios';
 import { tryEach } from 'async';
+import ScreenHead from '../../components/ScreenHead/ScreenHead';
 
 
 
@@ -39,24 +41,33 @@ const RecipesRecommendation = ({ navigation }) => {
         setLoading(true)
         setRecommendedRecipes([])
         try {
-            const res = await axios.post(`http://192.168.100.11:5000/recommend`, {
+            const res = await axios.post(`http://192.168.1.105:5000/recommend`, {
                 ingredients: ingredients
             });
             setRecommendedRecipes(res.data)
 
         } catch (error) {
-            console.log(error);
+            Toast.show({
+                type: 'error',
+                text1: 'The server hosting the ML model is not working',
+                position: 'bottom'
+            });
+        } finally {
+
+            setLoading(false)
         }
-        setLoading(false)
     };
 
     return (
-        <View style={{ flex: 1, backgroundColor: Colors.backgroundColor, padding: 20 }}>
+        <View style={{ flex: 1, padding: 20 }}>
+            <View style={{ marginVertical: 20 }}>
+                <ScreenHead title='Recipe Recommendations' />
+            </View>
             <TextInput
                 style={styles.input}
                 placeholder={TextStrings.ingredients}
-                placeholderTextColor={Colors.lightColor}
-                cursorColor={Colors.lightColor}
+                placeholderTextColor={Colors.accentColor}
+                cursorColor={Colors.accentColor}
                 value={ingredients}
                 onChangeText={(text) => setIngredients(text)}
             // keyboardType={'Recipe_Recommend'}

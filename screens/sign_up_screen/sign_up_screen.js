@@ -127,11 +127,11 @@ const SignUpScreen = ({ navigation }) => {
         </InputField>
         <Button text={!isSubmitting ? TextStrings.signUp : 'Loading'} disabled={isSubmitting ? true : false} onButtonPress={handleSignUp} />
         <View style={styles.formHeight}></View>
-        <SocialMediaButton
+        {/* <SocialMediaButton
           onButtonPress={googleSignUp}
           text={TextStrings.continueWithGoogle}
           source={ImageStrings.googleLogo}
-        />
+        /> */}
         <TouchableOpacity onPress={goToLoginScreen}>
           <Text style={styles.footerText}>{TextStrings.alreadyRegistered}</Text>
         </TouchableOpacity>

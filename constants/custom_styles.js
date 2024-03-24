@@ -71,6 +71,7 @@ const CustomStyles = {
         borderRadius: Sizes.textFormFieldRadius,
         borderColor: Colors.accentColor,
         marginBottom: Sizes.formHeight,
+        color: Colors.accentColor,
         padding: Sizes.textFormFieldPadding,
         flexDirection: 'row',
         justifyContent: 'space-between',

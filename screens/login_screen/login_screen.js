@@ -24,7 +24,6 @@ import { supabase } from '../../services/supabase/client';
 import InputField from '../../components/InputField';
 import { Lock1, Subtitle } from 'iconsax-react-native';
 
-
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -110,16 +109,7 @@ const LoginScreen = ({ navigation }) => {
         <Image style={styles.image} source={ImageStrings.mainLogo} />
         <Text style={styles.title}>{TextStrings.loginTitle}</Text>
         <Text style={styles.subtitle}>{TextStrings.loginSubtitle}</Text>
-        {/* <TextInput
-          style={styles.input}
-          placeholder={TextStrings.email}
-          placeholderTextColor={Colors.lightColor}
-          cursorColor={Colors.lightColor}
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          keyboardAppearance='light'
-          keyboardType={'email-address'}
-        /> */}
+
         <InputField value={email} setValue={setEmail} placeholder={TextStrings.email} type={'email'} >
           <Subtitle size="25" color={Colors.lightColor} />
         </InputField>
@@ -136,7 +126,8 @@ const LoginScreen = ({ navigation }) => {
         <Button disabled={isSubmitting ? true : false} onButtonPress={handleLogin} text={!isSubmitting ? TextStrings.login : 'Loading'} />
 
         <View style={styles.formHeight}></View>
-        <SocialMediaButton onButtonPress={googleSignUp} text={TextStrings.continueWithGoogle} source={ImageStrings.googleLogo} />
+
+        {/* <SocialMediaButton onButtonPress={googleSignUp} text={TextStrings.continueWithGoogle} source={ImageStrings.googleLogo} /> */}
         <TouchableOpacity onPress={goToRegisterScreen}>
           <Text style={styles.footerText}>{TextStrings.notRegistered}</Text>
         </TouchableOpacity>
